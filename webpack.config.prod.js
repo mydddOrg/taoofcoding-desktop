@@ -1,0 +1,102 @@
+const TsConfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const webpack = require("webpack");
+
+module.exports = [
+  {
+    mode: "production",
+    devtool: "source-map",
+    module: {
+      rules: [
+        {
+          test: /\.([jt]sx?)?$/,
+          use: "swc-loader",
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/i,
+          use: [
+            "style-loader",
+            {
+              loader: "css-loader",
+              options: { url: false },
+            },
+            "postcss-loader",
+          ],
+        },
+        {
+          test: /\.less$/i,
+          use: ["style-loader", "css-loader", "less-loader"],
+        },
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                outputPath: "images",
+                context: "dist",
+              },
+            },
+          ],
+        },
+      ],
+    },
+    node: {
+      __dirname: false,
+    },
+    plugins: [
+      new CleanWebpackPlugin(),
+      new CopyPlugin({
+        patterns: [
+          { from: "public/index.html", to: "." },
+          { from: "src/assets", to: "./assets" },
+        ],
+      }),
+      // eslint-disable-next-line no-undef
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": '"production"',
+      }),
+    ],
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", ".json"],
+      plugins: [new TsConfigPathsPlugin(/* { tsconfig, compiler } */)],
+      fallback: {
+        fs: false,
+        tls: false,
+        net: false,
+        path: false,
+        zlib: false,
+        http: false,
+        https: false,
+        stream: false,
+      },
+    },
+    externals: {
+      sqlite3: "commonjs sqlite3",
+      fs: 'require("fs")',
+    },
+  },
+  {
+    mode: "production",
+    entry: "./src/entry.ts",
+    target: "electron-main",
+    module: {
+      rules: [
+        {
+          test: /\.ts$/,
+          include: /src/,
+          use: [{ loader: "swc-loader" }],
+        },
+      ],
+    },
+    node: {
+      __dirname: false,
+    },
+    output: {
+      path: __dirname + "/",
+      filename: "entry.js",
+    },
+  },
+];
