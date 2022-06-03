@@ -1,36 +1,34 @@
-# myddd electron模板
-这是myddd在electron实现的模板项目。
+# 微言码道跨平台桌面客户端
+这个项目是微言码道基于myddd-electron的跨平台桌面客户端。它同时也是myddd-electron的配套示例项目，用于演示myddd-electron具体的实现是怎么样的。
 
-electron是一个基于chrome内核的跨平台开发框架，基于它你可以使用前端技术开发出跨平台的桌面程序。这是它的最大优势之一。
+由于这只是一个示例项目，所以功能上只做了微言码道的博客列表及博客显示两个功能，但我认为它足以说明myddd-electron是如何使用的。
 
-myddd在electron和web上的实现基本一致，都是基于TypeScript + React实现了ddd领域驱动设计，但基于electron桌面开发，有几个显著的不同在于：
+## 关键技术
 
-1. 引入sqlite并基于它实现了一个数据库框架
+myddd-electon是myddd基于electron在跨平台桌面开发的开源框架，它是领域驱动风格在前端的应用。
 
-2. 引入了缓存框架与机制
+主要使用的核心前端技术为：
 
-3. 引入了日志机制
+* 编程语言：TypeScript
+* 前端框架：React
+* 构建工具：Webpack + SWC
+* 数据库： 基于SQLITE 的自封装的框架
+* 网络： Axios
+* 依赖注入实现： 微软的tsyringe
+* 前端CSS： tailwindcss
 
-> 切记，不可把electron项目简单的理解成浏览器内核 + html这种实现，实现electron项目时，需要有桌面程序思维，也就是数据尽量下载并缓存到本地，有必要时再请求网络更新。html只是UI的一种实现载体。
+## 核心实现能力说明
 
+基于微言码道后端API，这个应用程序实现了：
 
-详细文档  请访问 https://myddd.org 以获取相关文档
+* 从服务器增量拉取博客列表，并保存至本地SQLite数据库
+* 访问博客文章时，当本地不存在时，下载文章内容至本地文件
 
+所以，仅就实现的功能上来说，已经足够说明一个桌面客户端需要最关心的数据库，文件存储，网络等了。
 
+## 程序效果图
 
+实际运行的程序效果如下：
 
-## electron国内源
+![](https://images.taoofcoding.tech/2022/06/taoofcoding-desktop-1.png)
 
-electron本身的源在国外，如果使用国外源，yarn install时会非常慢。所以，在第一次yarn install之前，最好设置以下源，将其变更为国内源
-
-~~~shell
-#linux&mac
-export ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
-export ELECTRON_BUILDER_BINARIES_MIRROR='http://npm.taobao.org/mirrors/electron-builder-binaries/'
-
-#win
-$env:ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
-$env:ELECTRON_BUILDER_BINARIES_MIRROR='http://npm.taobao.org/mirrors/electron-builder-binaries/'
-~~~
-
-## 
