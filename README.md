@@ -26,6 +26,66 @@ myddd-electon是myddd基于electron在跨平台桌面开发的开源框架，它
 
 所以，仅就实现的功能上来说，已经足够说明一个桌面客户端需要最关心的数据库，文件存储，网络等了。
 
+## 编译与运行此项目
+
+### Electron国内源
+
+electron本身的源在国外，如果使用国外源，yarn install时会非常慢。所以，在第一次yarn install之前，最好设置以下源，将其变更为国内源
+
+~~~shell
+#linux&mac
+export ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
+export ELECTRON_BUILDER_BINARIES_MIRROR='http://npm.taobao.org/mirrors/electron-builder-binaries/'
+
+#win（Power Shell)
+$env:ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
+$env:ELECTRON_BUILDER_BINARIES_MIRROR='http://npm.taobao.org/mirrors/electron-builder-binaries/'
+
+#win（cmd)
+set ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
+set ELECTRON_BUILDER_BINARIES_MIRROR='http://npm.taobao.org/mirrors/electron-builder-binaries/'
+~~~
+
+### SQLITE编译环境
+
+项目使用到了数据库SQLite，而SQLite在Electron中使用，需要系统安装支持编译的环境。
+
+参考 ：https://github.com/nodejs/node-gyp
+
+> Linux
+
+安装gcc以及python
+
+> Mac
+
+安装Xcode或Xcode Command Tools 
+
+> Win
+
+Mac: 需要安装XCode，因为使用到原生模块SQLite3
+
+Win:
+
+- Install Visual C++ Build Environment: [Visual Studio Build Tools](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools) (using "Visual C++ build tools" workload) or [Visual Studio 2017 Community](https://visualstudio.microsoft.com/pl/thank-you-downloading-visual-studio/?sku=Community) (using the "Desktop development with C++" workload)
+
+### 编译与运行
+
+```shell
+ #编译
+ npm run build
+ 
+ #运行开发环境 (有hot reload)
+ npm run start #启动开发模式下的React
+ npm run serve #启动开发模式下的electron
+
+ #打包
+ npm run packageForMac #Mac
+
+ npm run packageForWin #Windows
+
+ npm run packageForLinux #Linux
+```
+
 ## 程序效果图
 
 实际运行的程序效果如下：
